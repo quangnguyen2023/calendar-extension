@@ -9,11 +9,7 @@ type DaysOfWeekProps = {
   textColor: string;
 };
 
-export default function DaysOfWeek({
-  firstDayOfWeek,
-  weekdayFormat,
-  textColor,
-}: DaysOfWeekProps) {
+export default function DaysOfWeek({ firstDayOfWeek, weekdayFormat, textColor }: DaysOfWeekProps) {
   const [daysOfWeek, setDaysOfWeek] = useState([
     { value: 'Mon', isWeekend: false },
     { value: 'Tue', isWeekend: false },
@@ -41,7 +37,7 @@ export default function DaysOfWeek({
   }, [firstDayOfWeek, daysOfWeek]);
 
   return (
-    <div className="mt-2 grid grid-cols-7 gap-1 text-base font-semibold">
+    <div className="mt-2 grid grid-cols-7 gap-1 text-sm font-semibold">
       {daysOfWeek.map((day, index) => (
         <div
           key={index}

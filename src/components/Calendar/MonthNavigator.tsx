@@ -19,7 +19,7 @@ export default function MonthNavigator({
   return (
     <div className="group flex items-center justify-between">
       <div
-        className="col-span-4 ml-3 flex items-center font-semibold uppercase"
+        className="col-span-4 ml-3 flex items-center text-lg font-bold uppercase"
         style={{ color: accentColor }}
       >
         {format(date, 'MMMM yyyy')}

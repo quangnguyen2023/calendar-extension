@@ -16,7 +16,7 @@ export default function DaysOfMonth({
 }: DaysOfMonthProps) {
   return (
     <div
-      className="mt-2 grid grid-cols-7 gap-1 gap-y-2"
+      className="mt-3 grid grid-cols-7 gap-2"
       style={{
         ['--text' as any]: textColor,
         ['--accent' as any]: accentColor,
@@ -28,7 +28,7 @@ export default function DaysOfMonth({
         <div
           key={index}
           className={cn(
-            'relative rounded-md border-2 border-dashed border-transparent py-5',
+            'relative rounded-md border border-dashed border-transparent py-5',
             {
               'text-white': day?.isCurrentDay,
               'text-[var(--text)]/50 dark:text-[#a8a8a8]': !day?.isCurrentDay && day?.isWeekendDay,
@@ -49,7 +49,7 @@ export default function DaysOfMonth({
             {/* Lunar date */}
             {enableLunarCalendar && day.value && (
               <span
-                className={cn(`-mt-0.5 ml-4 text-[0.65rem]`, {
+                className={cn(`-mt-0.5 ml-4 text-[0.6rem]`, {
                   'text-[var(--accent)]': day.lunarValue?.get().day == 1 && !day?.isCurrentDay,
                 })}
               >

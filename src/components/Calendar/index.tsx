@@ -62,8 +62,8 @@ export default function Calendar({
   return (
     <CalendarContext.Provider value={{ selectedTime, changeTime: onMonthChange }}>
       <div
-        className="rounded-3xl px-4 py-5 shadow-[0_4px_12px_0_rgba(0,0,0,0.1)] select-none dark:bg-[#2e2e2e]"
-        style={{ width: 360, height: 430, backgroundColor: bgColor }}
+        className="select-none dark:bg-[#2e2e2e]"
+        style={{ width: 360, height: 400, backgroundColor: bgColor }}
       >
         <MonthNavigator
           selectedTime={selectedTime}
