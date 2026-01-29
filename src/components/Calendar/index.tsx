@@ -6,8 +6,7 @@ import MonthNavigator from './MonthNavigator';
 import { createContext, useMemo, useState } from 'react';
 import { generateDaysOfMonth } from './services';
 import { FirstDayOfWeekType, MonthRange, SelectedTime, WeekdayFormatType } from './types';
-// import { getWidgetSize } from '@/configs/widgetSizes';
-// import { WidgetType } from '@/types/widget';
+import QuickViewByDate from '@/components/Calendar/DropdownMenu/QuickViewByDate';
 
 type CalendarProps = {
   enableLunarCalendar?: boolean;
@@ -62,7 +61,7 @@ export default function Calendar({
   return (
     <CalendarContext.Provider value={{ selectedTime, changeTime: onMonthChange }}>
       <div
-        className="select-none dark:bg-[#2e2e2e]"
+        className="select-none dark:bg-[#2e2e2e] px-4"
         style={{ width: 360, height: 400, backgroundColor: bgColor }}
       >
         <MonthNavigator
@@ -87,6 +86,8 @@ export default function Calendar({
           />
         </div>
       </div>
+
+      <QuickViewByDate />
     </CalendarContext.Provider>
   );
 }

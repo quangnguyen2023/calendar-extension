@@ -11,11 +11,10 @@ type QuickViewByDateProps = {
 
 const QuickViewByDate = ({ onClose }: QuickViewByDateProps) => {
   const [enableLunarCalendar, setEnableLunarCalendar] = useState(false);
-  const { solarTime, lunarTime, handleLunarChange, handleSolarChange, onGoToDate } =
-    useTime();
+  const { solarTime, lunarTime, handleLunarChange, handleSolarChange, onGoToDate } = useTime();
 
   return (
-    <div>
+    <div className="bg-[#f8fafc] p-4 pb-6">
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -45,16 +44,12 @@ const QuickViewByDate = ({ onClose }: QuickViewByDateProps) => {
             <MoonIcon width={18} height={18} className="-mt-0.5" />
             <div className="text-xs font-medium"> Lunar date </div>
           </div>
-          <TimeSelector
-            selectedTime={lunarTime}
-            isLunarDate
-            onChange={handleLunarChange}
-          />
+          <TimeSelector selectedTime={lunarTime} isLunarDate onChange={handleLunarChange} />
         </div>
       )}
 
       <button
-        className="mt-4 ml-auto block w-full rounded bg-[#2383e2] px-2 py-2 text-xs font-medium text-white transition-colors hover:bg-[#3a83cc] active:bg-[#377abe]"
+        className="mt-4 ml-auto block w-full rounded bg-[#2383e2] px-2 py-3 text-xs font-medium text-white transition-colors hover:bg-[#3a83cc] active:bg-[#377abe]"
         onClick={() => {
           onGoToDate();
           onClose?.();

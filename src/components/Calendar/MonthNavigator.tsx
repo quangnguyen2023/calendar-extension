@@ -1,5 +1,4 @@
 import { format } from 'date-fns';
-// import DropdownMenu from './DropdownMenu';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 type MonthNavigatorProps = {
@@ -61,8 +60,6 @@ export default function MonthNavigator({
         >
           <ChevronRight width={18} height={18} />
         </div>
-
-        {/* <DropdownMenu /> */}
       </div>
     </div>
   );
