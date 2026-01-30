@@ -44,7 +44,7 @@ export default function DaysOfMonth({
             className={`absolute ${enableLunarCalendar ? 'top-[60%]' : 'top-1/2'} left-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center`}
           >
             {/* Solar date */}
-            <span className="text-base">{day.value}</span>
+            <span className="text-sm">{day.value}</span>
 
             {/* Lunar date */}
             {enableLunarCalendar && day.value && (

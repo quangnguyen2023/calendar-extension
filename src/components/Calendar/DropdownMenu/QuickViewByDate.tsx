@@ -22,7 +22,7 @@ const QuickViewByDate = ({ onClose }: QuickViewByDateProps) => {
             <div className="text-xs font-medium"> Solar date </div>
           </div>
           <div
-            className="cursor-pointer rounded p-1 text-xs text-[rgb(35,131,226)] select-none hover:bg-[rgba(35,131,226,0.07)]"
+            className="cursor-pointer rounded p-1 text-xs font-semibold text-[rgb(35,131,226)] select-none hover:bg-[rgba(35,131,226,0.07)]"
             onClick={() => setEnableLunarCalendar(!enableLunarCalendar)}
           >
             {enableLunarCalendar ? 'Hide lunar' : 'Show lunar'}
