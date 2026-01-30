@@ -32,21 +32,25 @@ const QuickViewByDate = ({ onClose }: QuickViewByDateProps) => {
         <TimeSelector selectedTime={solarTime} onChange={handleSolarChange} />
       </div>
 
-      {enableLunarCalendar && (
-        <div className="mt-2 mb-1 flex justify-center">
-          <ArrowsUpDownIcon width={14} height={14} color="#888" />
-        </div>
-      )}
-
-      {enableLunarCalendar && (
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <MoonIcon width={18} height={18} className="-mt-0.5" />
-            <div className="text-xs font-medium"> Lunar date </div>
+      <div
+        className={`grid transition-all duration-300 ease-in-out ${
+          enableLunarCalendar ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="mt-2 mb-1 flex justify-center">
+            <ArrowsUpDownIcon width={14} height={14} color="#888" />
           </div>
-          <TimeSelector selectedTime={lunarTime} isLunarDate onChange={handleLunarChange} />
+
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <MoonIcon width={18} height={18} className="-mt-0.5" />
+              <div className="text-xs font-medium"> Lunar date </div>
+            </div>
+            <TimeSelector selectedTime={lunarTime} isLunarDate onChange={handleLunarChange} />
+          </div>
         </div>
-      )}
+      </div>
 
       <button
         className="mt-4 ml-auto block w-full rounded bg-[#2383e2] px-2 py-3 text-xs font-medium text-white transition-colors hover:bg-[#3a83cc] active:bg-[#377abe]"
