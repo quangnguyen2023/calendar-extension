@@ -6,7 +6,7 @@ import MonthNavigator from './MonthNavigator';
 import { createContext, useMemo, useState } from 'react';
 import { generateDaysOfMonth } from './services';
 import { FirstDayOfWeekType, MonthRange, SelectedTime, WeekdayFormatType } from './types';
-import QuickViewByDate from '@/components/Calendar/DropdownMenu/QuickViewByDate';
+import QuickViewByDate from '@/components/Calendar/QuickViewByDate';
 
 type CalendarProps = {
   enableLunarCalendar?: boolean;

@@ -4,7 +4,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import QuickViewByDate from './QuickViewByDate';
+import QuickViewByDate from '../QuickViewByDate';
 import { EllipsisVertical } from 'lucide-react';
 import { useState } from 'react';
 

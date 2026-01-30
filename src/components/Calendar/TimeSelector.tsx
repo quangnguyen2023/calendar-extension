@@ -1,6 +1,6 @@
 import { SelectedTime } from '@/components/Calendar/types';
 import { getDaysInMonth } from 'date-fns';
-import { CustomCombobox } from './CustomCombobox';
+import { CustomCombobox } from './DropdownMenu/CustomCombobox';
 
 type TimeSelectorType = {
   selectedTime: SelectedTime;
