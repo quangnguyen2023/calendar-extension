@@ -3,10 +3,12 @@
 import DaysOfWeek from './DaysOfWeek';
 import DaysOfMonth from './DaysOfMonth';
 import MonthNavigator from './MonthNavigator';
-import { createContext, useMemo, useState } from 'react';
+import { createContext, lazy, Suspense, useMemo, useState, startTransition } from 'react';
 import { generateDaysOfMonth } from './services';
 import { FirstDayOfWeekType, MonthRange, SelectedTime, WeekdayFormatType } from './types';
-import QuickViewByDate from '@/components/Calendar/QuickViewByDate';
+
+// Lazy load — QuickViewByDate is below the fold and not needed for first paint
+const QuickViewByDate = lazy(() => import('@/components/Calendar/QuickViewByDate'));
 
 type CalendarProps = {
   enableLunarCalendar?: boolean;
@@ -50,12 +52,17 @@ export default function Calendar({
         selectedTime.month as MonthRange,
         selectedTime.year,
         firstDayOfWeek,
+        enableLunarCalendar, // skip 42× lunar computations when not needed
       ),
-    [selectedTime, firstDayOfWeek],
+    [selectedTime, firstDayOfWeek, enableLunarCalendar],
   );
 
   const onMonthChange = (newTime: { day?: number; month: number; year: number }) => {
-    setSelectedTime(newTime);
+    // startTransition marks this update as non-urgent,
+    // letting React render the current frame first before recalculating days.
+    startTransition(() => {
+      setSelectedTime(newTime);
+    });
   };
 
   return (
@@ -87,7 +94,9 @@ export default function Calendar({
         </div>
       </div>
 
-      <QuickViewByDate />
+      <Suspense fallback={null}>
+        <QuickViewByDate />
+      </Suspense>
     </CalendarContext.Provider>
   );
 }

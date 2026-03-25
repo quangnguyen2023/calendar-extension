@@ -2,9 +2,18 @@ import { getDaysInMonth, isSameDay, isSaturday, isSunday } from 'date-fns';
 import { DayOfMonthType, MonthRange, FirstDayOfWeekType } from './types';
 import { LunarDate, SolarDate } from '@nghiavuive/lunar_date_vi';
 
-const getLunarDate: (date: Date) => LunarDate = (date: Date) => {
-  const solarDate = new SolarDate(date);
-  return solarDate.toLunarDate();
+// Module-level cache persists for the entire extension session.
+// Same solar date always maps to the same lunar date, so this is safe.
+const lunarCache = new Map<string, LunarDate>();
+
+const getLunarDate = (date: Date): LunarDate => {
+  const key = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+  const cached = lunarCache.get(key);
+  if (cached) return cached;
+
+  const result = new SolarDate(date).toLunarDate();
+  lunarCache.set(key, result);
+  return result;
 };
 
 export const generateDaysOfMonth = (
@@ -12,6 +21,7 @@ export const generateDaysOfMonth = (
   month: MonthRange,
   year: number,
   firstDayOfWeek: FirstDayOfWeekType,
+  enableLunar = true,
 ) => {
   let days: DayOfMonthType[] = [];
   const totalDaysOfMonth = getDaysInMonth(new Date(year, month));
@@ -41,7 +51,7 @@ export const generateDaysOfMonth = (
 
     days.push({
       value: lastDayOfPreviousMonth - i,
-      lunarValue: getLunarDate(date),
+      lunarValue: enableLunar ? getLunarDate(date) : undefined,
       isNotCurrentMonthDay: true,
     });
   }
@@ -52,7 +62,7 @@ export const generateDaysOfMonth = (
 
     days.push({
       value: i,
-      lunarValue: getLunarDate(date),
+      lunarValue: enableLunar ? getLunarDate(date) : undefined,
       isCurrentDay: isSameDay(new Date(year, month, i), currentDate),
       isWeekendDay: isSaturday(date) || isSunday(date),
       isSelectedDay: i === day,
@@ -64,7 +74,7 @@ export const generateDaysOfMonth = (
     const date = new Date(year, month + 1, i);
     days.push({
       value: i,
-      lunarValue: getLunarDate(date),
+      lunarValue: enableLunar ? getLunarDate(date) : undefined,
       isNotCurrentMonthDay: true,
     });
   }
@@ -75,7 +85,7 @@ export const generateDaysOfMonth = (
     const date = new Date(year, month + 1, extraDay);
     days.push({
       value: extraDay,
-      lunarValue: getLunarDate(date),
+      lunarValue: enableLunar ? getLunarDate(date) : undefined,
       isNotCurrentMonthDay: true,
     });
     extraDay++;
