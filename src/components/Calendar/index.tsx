@@ -3,7 +3,15 @@
 import DaysOfWeek from './DaysOfWeek';
 import DaysOfMonth from './DaysOfMonth';
 import MonthNavigator from './MonthNavigator';
-import { createContext, lazy, Suspense, useMemo, useState, startTransition } from 'react';
+import {
+  createContext,
+  lazy,
+  Suspense,
+  useMemo,
+  useState,
+  startTransition,
+  useEffect,
+} from 'react';
 import { generateDaysOfMonth } from './services';
 import { FirstDayOfWeekType, MonthRange, SelectedTime, WeekdayFormatType } from './types';
 
@@ -40,21 +48,40 @@ export default function Calendar({
   // const size = getWidgetSize(WidgetType.CALENDAR);
 
   const [selectedTime, setSelectedTime] = useState<SelectedTime>({
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
+  });
+
+  const [selectedDate, setSelectedDate] = useState<{
+    day: number;
+    month: number;
+    year: number;
+  } | null>({
     day: new Date().getDate(),
     month: new Date().getMonth(),
     year: new Date().getFullYear(),
   });
 
+  useEffect(() => {
+    if (selectedTime.day !== undefined) {
+      setSelectedDate({
+        day: selectedTime.day,
+        month: selectedTime.month,
+        year: selectedTime.year,
+      });
+    }
+  }, [selectedTime.day, selectedTime.month, selectedTime.year]);
+
   const daysOfMonth = useMemo(
     () =>
       generateDaysOfMonth(
-        selectedTime.day,
         selectedTime.month as MonthRange,
         selectedTime.year,
         firstDayOfWeek,
+        selectedDate,
         enableLunarCalendar, // skip 42× lunar computations when not needed
       ),
-    [selectedTime, firstDayOfWeek, enableLunarCalendar],
+    [selectedTime.month, selectedTime.year, firstDayOfWeek, selectedDate, enableLunarCalendar],
   );
 
   const onMonthChange = (newTime: { day?: number; month: number; year: number }) => {
@@ -62,6 +89,12 @@ export default function Calendar({
     // letting React render the current frame first before recalculating days.
     startTransition(() => {
       setSelectedTime(newTime);
+    });
+  };
+
+  const onDayClick = (date: { day: number; month: number; year: number }) => {
+    startTransition(() => {
+      setSelectedDate(date);
     });
   };
 
@@ -90,6 +123,7 @@ export default function Calendar({
             enableLunarCalendar={enableLunarCalendar}
             accentColor={accentColor}
             textColor={textColor}
+            onDayClick={onDayClick}
           />
         </div>
       </div>

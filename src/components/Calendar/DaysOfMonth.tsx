@@ -6,6 +6,7 @@ type DaysOfMonthProps = {
   enableLunarCalendar?: boolean;
   accentColor: string;
   textColor: string;
+  onDayClick?: (date: { day: number; month: number; year: number }) => void;
 };
 
 export default function DaysOfMonth({
@@ -13,6 +14,7 @@ export default function DaysOfMonth({
   enableLunarCalendar,
   accentColor,
   textColor,
+  onDayClick,
 }: DaysOfMonthProps) {
   return (
     <div
@@ -27,9 +29,11 @@ export default function DaysOfMonth({
         // prettier-ignore
         <div
           key={index}
+          onClick={() => day && onDayClick?.({ day: day.value, month: day.month, year: day.year })}
           className={cn(
-            'relative rounded-md border border-dashed border-transparent py-5',
+            'relative rounded-md border border-transparent py-5 transition-colors',
             {
+              'hover:bg-gray-100 dark:hover:bg-gray-700': day,
               'text-white': day?.isCurrentDay,
               'text-[var(--text)]/50 dark:text-[#a8a8a8]': !day?.isCurrentDay && day?.isWeekendDay,
               'text-[var(--text)]/20 dark:text-[#5d5d5d]': day?.isNotCurrentMonthDay,

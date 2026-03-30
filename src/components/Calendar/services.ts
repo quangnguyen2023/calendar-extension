@@ -17,10 +17,10 @@ const getLunarDate = (date: Date): LunarDate => {
 };
 
 export const generateDaysOfMonth = (
-  day: number | undefined,
   month: MonthRange,
   year: number,
   firstDayOfWeek: FirstDayOfWeekType,
+  selectedDate: { day: number; month: number; year: number } | null,
   enableLunar = true,
 ) => {
   let days: DayOfMonthType[] = [];
@@ -47,46 +47,82 @@ export const generateDaysOfMonth = (
 
   // Add days from the previous month to pad the start of the calendar
   for (let i = previousMonthPadding - 1; i >= 0; i--) {
-    const date = new Date(year, month - 1, lastDayOfPreviousMonth - i);
+    const prevMonth = month === 0 ? 11 : month - 1;
+    const prevYear = month === 0 ? year - 1 : year;
+    const date = new Date(prevYear, prevMonth, lastDayOfPreviousMonth - i);
+    const dayValue = lastDayOfPreviousMonth - i;
+    const isSelectedDay = selectedDate
+      ? selectedDate.day === dayValue &&
+        selectedDate.month === prevMonth &&
+        selectedDate.year === prevYear
+      : false;
 
     days.push({
-      value: lastDayOfPreviousMonth - i,
+      value: dayValue,
+      month: prevMonth,
+      year: prevYear,
       lunarValue: enableLunar ? getLunarDate(date) : undefined,
       isNotCurrentMonthDay: true,
+      isSelectedDay,
     });
   }
 
   // Add days of the current month
   for (let i = 1; i <= totalDaysOfMonth; i++) {
     const date = new Date(year, month, i);
+    const isSelectedDay = selectedDate
+      ? selectedDate.day === i && selectedDate.month === month && selectedDate.year === year
+      : false;
 
     days.push({
       value: i,
+      month: month,
+      year: year,
       lunarValue: enableLunar ? getLunarDate(date) : undefined,
       isCurrentDay: isSameDay(new Date(year, month, i), currentDate),
       isWeekendDay: isSaturday(date) || isSunday(date),
-      isSelectedDay: i === day,
+      isSelectedDay,
     });
   }
 
   // Add days from the next month to pad the end of the calendar
   for (let i = 1; i <= nextMonthPadding; i++) {
-    const date = new Date(year, month + 1, i);
+    const nextMonth = month === 11 ? 0 : month + 1;
+    const nextYear = month === 11 ? year + 1 : year;
+    const date = new Date(nextYear, nextMonth, i);
+    const isSelectedDay = selectedDate
+      ? selectedDate.day === i && selectedDate.month === nextMonth && selectedDate.year === nextYear
+      : false;
+
     days.push({
       value: i,
+      month: nextMonth,
+      year: nextYear,
       lunarValue: enableLunar ? getLunarDate(date) : undefined,
       isNotCurrentMonthDay: true,
+      isSelectedDay,
     });
   }
 
   // Add days of the next month if there are not enough 42 days ~ 6 weeks
   let extraDay = nextMonthPadding + 1;
   while (days.length < 42) {
-    const date = new Date(year, month + 1, extraDay);
+    const nextMonth = month === 11 ? 0 : month + 1;
+    const nextYear = month === 11 ? year + 1 : year;
+    const date = new Date(nextYear, nextMonth, extraDay);
+    const isSelectedDay = selectedDate
+      ? selectedDate.day === extraDay &&
+        selectedDate.month === nextMonth &&
+        selectedDate.year === nextYear
+      : false;
+
     days.push({
       value: extraDay,
+      month: nextMonth,
+      year: nextYear,
       lunarValue: enableLunar ? getLunarDate(date) : undefined,
       isNotCurrentMonthDay: true,
+      isSelectedDay,
     });
     extraDay++;
   }

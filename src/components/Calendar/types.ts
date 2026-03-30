@@ -2,6 +2,8 @@ import { LunarDate } from '@nghiavuive/lunar_date_vi';
 
 export type DayOfMonthType = {
   value: number;
+  month: number;
+  year: number;
   lunarValue?: LunarDate;
   isCurrentDay?: boolean;
   isWeekendDay?: boolean;
