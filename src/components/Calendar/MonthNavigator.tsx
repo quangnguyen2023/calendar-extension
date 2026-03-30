@@ -16,7 +16,7 @@ export default function MonthNavigator({
   // #f64338
 
   return (
-    <div className="group flex items-center justify-between">
+    <div className="group flex items-center justify-between w-full">
       <div
         className="col-span-4 ml-3 flex items-center text-lg font-bold uppercase"
         style={{ color: accentColor }}

@@ -18,7 +18,7 @@ const QuickViewByDate = ({ onClose }: QuickViewByDateProps) => {
   const isLunar = mode === 'lunar';
 
   return (
-    <div className="bg-[#f8fafc] p-4 pb-6">
+    <div className="py-2">
       {/* Switch toggle: ☀️ Solar ──[○]── 🌙 Lunar */}
       <div className="mb-3 flex items-center gap-3">
         <span

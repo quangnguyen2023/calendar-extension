@@ -3,20 +3,10 @@
 import DaysOfWeek from './DaysOfWeek';
 import DaysOfMonth from './DaysOfMonth';
 import MonthNavigator from './MonthNavigator';
-import {
-  createContext,
-  lazy,
-  Suspense,
-  useMemo,
-  useState,
-  startTransition,
-  useEffect,
-} from 'react';
+import { createContext, useMemo, useState, startTransition, useEffect } from 'react';
 import { generateDaysOfMonth } from './services';
 import { FirstDayOfWeekType, MonthRange, SelectedTime, WeekdayFormatType } from './types';
-
-// Lazy load — QuickViewByDate is below the fold and not needed for first paint
-const QuickViewByDate = lazy(() => import('@/components/Calendar/QuickViewByDate'));
+import CalendarMenu from './CalendarMenu';
 
 type CalendarProps = {
   enableLunarCalendar?: boolean;
@@ -104,11 +94,14 @@ export default function Calendar({
         className="select-none dark:bg-[#2e2e2e] px-4"
         style={{ width: 360, height: 400, backgroundColor: bgColor }}
       >
-        <MonthNavigator
-          selectedTime={selectedTime}
-          onMonthChange={onMonthChange}
-          accentColor={accentColor}
-        />
+        <div className="flex items-center ">
+          <MonthNavigator
+            selectedTime={selectedTime}
+            onMonthChange={onMonthChange}
+            accentColor={accentColor}
+          />
+          <CalendarMenu />
+        </div>
 
         <div
           className={`${enableLunarCalendar ? 'text-base' : 'text-sm'} mt-5 font-semibold dark:text-white`}
@@ -127,10 +120,6 @@ export default function Calendar({
           />
         </div>
       </div>
-
-      <Suspense fallback={null}>
-        <QuickViewByDate />
-      </Suspense>
     </CalendarContext.Provider>
   );
 }
