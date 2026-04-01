@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState } from 'react';
-import { EllipsisVertical } from 'lucide-react';
+import { EllipsisVertical, LoaderIcon } from 'lucide-react';
 
 import {
   Popover,
@@ -19,7 +19,7 @@ export default function CalendarMenu() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon-sm" className="rounded-full">
           <EllipsisVertical width={18} height={18} />
         </Button>
       </PopoverTrigger>
@@ -32,7 +32,7 @@ export default function CalendarMenu() {
         </PopoverHeader>
 
         <div className="pt-4 w-70">
-          <Suspense fallback={null}>
+          <Suspense fallback={<LoaderIcon className="mx-auto my-4 size-5 animate-spin" />}>
             <QuickViewByDate onClose={() => setOpen(false)} />
           </Suspense>
         </div>
