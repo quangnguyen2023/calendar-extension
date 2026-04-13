@@ -3,8 +3,9 @@ import pkg from './package.json';
 
 export default defineManifest({
   manifest_version: 3,
-  name: pkg.name,
+  name: 'Lịch âm dương Việt Nam',
   version: pkg.version,
+  description: 'Lịch âm dương Việt Nam - Xem nhanh ngày âm lịch, ngày dương lịch.',
   icons: {
     16: 'public/logo-16.png',
     48: 'public/logo-48.png',
@@ -18,7 +19,7 @@ export default defineManifest({
     },
     default_popup: 'src/popup/index.html',
   },
-  permissions: ['sidePanel', 'contentSettings'],
+  // permissions: ['sidePanel', 'contentSettings'],
   // content_scripts: [{
   //   js: ['src/content/main.tsx'],
   //   matches: ['https://*/*'],
